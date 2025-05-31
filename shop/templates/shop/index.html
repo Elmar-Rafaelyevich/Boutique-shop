@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+
+{% block main %}
+
+      <!--  Modal -->
+      {% include 'components/_modal.html' %}
+
+      <div class="container">  
+        {% include 'shop/components/_banner.html'%}
+          <!-- CATEGORIES SECTION-->
+        {% include 'shop/components/_categories.html' %}
+          <!-- TRENDING PRODUCTS-->
+        {% include 'shop/components/_products.html'%}
+          <!-- SERVICES-->
+        {% include 'shop/components/_services.html' %}
+          <!-- NEWSLETTER-->
+        {% include 'shop/components/_newsletter.html' %}
+      </div>
+      <!-- HERO SECTION-->
+      {% include 'components/_hero.html' %}
+
+{% endblock %}

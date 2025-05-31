@@ -1,0 +1,41 @@
+{% load shop_tags %}
+
+<!-- Получаем подкатегории и отсортированные данные -->
+{% get_subcategory category as categories %}
+{% get_sorted as data %}
+
+<div class="col-lg-3 order-2 order-lg-1">
+    <!-- Блок подкатегорий -->
+    <div class="py-2 px-4 bg-dark text-white mb-3">
+        <strong class="small text-uppercase fw-bold">Подкатегории: {{ category }}</strong>
+    </div>
+
+    <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+        {% for category in categories %}
+        <li class="mb-2">
+            <a href="?type={{ category.slug }}" class="reset-anchor d-flex align-items-center">
+                <i class="fas fa-chevron-right me-2 text-dark"></i> {{ category }}
+            </a>
+        </li>
+        {% empty %}
+        <li class="text-muted">Нет подкатегорий</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Фильтры по атрибутам (например, цена, цвет, размер) -->
+    {% for item in data %}
+    <div class="py-2 px-4 bg-dark text-white mb-3">
+        <strong class="small text-uppercase fw-bold">{{ item.title }}</strong>
+    </div>
+    <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+        {% for sorter in item.sorters %}
+        <li class="mb-2">
+            <a href="?sort={{ sorter.0 }}" class="reset-anchor d-flex align-items-center">
+                <i class="fas fa-chevron-right me-2 text-dark"></i> {{ sorter.1 }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+</div>

@@ -1,0 +1,30 @@
+{% load static %}
+<section class="pt-5">
+    <header class="text-center">
+        <p class="small text-muted small text-uppercase mb-1">
+            Коллекции со вкусом
+        </p>
+        <h2 class="h5 text-uppercase mb-4">Просмотр категории</h2>
+    </header>
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-md-4">
+            <a class="category-item" href="{{ category.get_absolute_url }}">
+                <img class="img-fluid category-img"
+                     src="{{ category.get_parent_category_photo }}"
+                     alt="" />
+                <strong class="category-item-title">{{ category }}</strong>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        .category-img {
+            width: 100%;
+            height: 250px; /* фиксированная высота */
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
+</section>

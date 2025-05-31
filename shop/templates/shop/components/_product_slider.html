@@ -1,0 +1,47 @@
+<div class="row m-sm-0">
+  <!-- Thumbnails -->
+  <div class="col-sm-2 p-sm-0 order-2 order-sm-1 mt-2 mt-sm-0 px-xl-2">
+    <div class="swiper product-slider-thumbs">
+      <div class="swiper-wrapper">
+        {% for image in product.images.all %}
+        <div class="swiper-slide h-auto">
+          <a class="glightbox product-view"
+             href="{{ image.image.url }}"
+             data-gallery="gallery2"
+             data-glightbox="Product image">
+            <img class="img-fluid" src="{{ image.image.url }}" alt="...">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Main image slider -->
+  <div class="col-sm-10 order-1 order-sm-2">
+    <div class="swiper product-slider">
+      <div class="swiper-wrapper">
+        {% for image in product.images.all %}
+        <div class="swiper-slide h-auto">
+          <a class="glightbox product-view" 
+             href="{{ image.image.url }}" 
+             data-gallery="gallery2" 
+             data-glightbox="Product item">
+            <img class="img-fluid" src="{{ image.image.url }}" alt="...">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* или cover — в зависимости от твоей цели */
+}
+
+
+</style>
