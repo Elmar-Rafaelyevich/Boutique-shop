@@ -73,7 +73,32 @@ class Product(models.Model):
 class Gallery(models.Model):
     image = models.ImageField(upload_to='products/', verbose_name='Изображение')
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE, verbose_name='Товар', related_name='images')
-
+    
     class Meta:
         verbose_name='Изображение'
         verbose_name_plural ='Галерея товаров'
+
+CHOICES = (
+    ("5", "Отлично"),
+    ("4", "Хорошо"),
+    ("3", "Нормально"),
+    ("2", "Плохо"),
+    ("1", "Ужасно"),
+)
+
+class Review(models.Model):
+    # comment
+    text = models.TextField(verbose_name='Комментария')
+    grade = models.CharField(max_length=20, choices=CHOICES, blank=True, null=True, verbose_name='Оценка')
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='Автор')
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+
+    def __str__(self):
+        # имя автора 
+        return self.author.username
+    
+    class Meta:
+        verbose_name='Отзыв'
+        verbose_name_plural ='Отзывы'

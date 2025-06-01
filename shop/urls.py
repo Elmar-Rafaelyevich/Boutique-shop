@@ -1,5 +1,7 @@
 from django.urls import path
-from shop.views import Index, SubCategories, ProductPage, login_registration, user_login, user_logout, registration
+from shop.views import (Index, SubCategories, ProductPage, 
+                        login_registration, user_login, user_logout, 
+                        registration, save_review)
 
 urlpatterns = [
     # class view
@@ -12,5 +14,6 @@ urlpatterns = [
     path('login/', user_login, name='user_login'),
     path('logout/', user_logout, name='user_logout'),
     path('register/', registration, name='registration'),
+    path('save_review/<int:product_pk>', save_review, name='save_review'),
 
 ]

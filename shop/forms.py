@@ -35,3 +35,11 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+# comment form
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('text', 'grade')
+        widgets = {'text': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Ваш отзыв...'}),
+                   'grade': forms.Select(attrs={'class':'form-control', 'placeholder':'Ваш оценка...'})}

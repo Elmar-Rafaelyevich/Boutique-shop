@@ -1,5 +1,5 @@
 from django.contrib import admin
-from shop.models import Product, Category, Gallery
+from shop.models import Product, Category, Gallery, Review
 from django.utils.safestring import mark_safe
 
 class GalleryInline(admin.TabularInline):
@@ -32,6 +32,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('title', 'price')
     # создаёт ссылку для полей 'pk', 'title'
     list_display_links = ('pk', 'title')
+    readonly_fields = ('watched',)
     # ссылка для загрузки изображения товара 
     inlines = (GalleryInline,)
 
@@ -46,5 +47,12 @@ class ProductAdmin(admin.ModelAdmin):
             return 'Нет изображение'
     # параметр short_description() меняет название функции с get_photo на Изображения товара
     get_photo.short_description = 'Изображения товара'
+
+
+@admin.register(Review)
+class ReviwAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'author', 'created_at')
+    readonly_fields = ('author', 'text', 'created_at')
+
 
 admin.site.register(Gallery)

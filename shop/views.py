@@ -6,8 +6,8 @@ from django.contrib import messages
 
 
 # local .py
-from shop.models import Category, Product
-from shop.forms import LoginForm, RegistrationForm
+from shop.models import Category, Product, Review
+from shop.forms import LoginForm, RegistrationForm, ReviewForm
 
 
 class Index(ListView):
@@ -71,6 +71,10 @@ class ProductPage(DetailView):
 
         context['title']= product.title
         context['products'] = data
+        context['reviews'] = Review.objects.filter(product=product).order_by('-pk')
+        if self.request.user.is_authenticated:
+            context['review_form'] = ReviewForm
+
         return context
     
 def login_registration(request):
@@ -110,3 +114,14 @@ def registration(request):
 
     return redirect('login_registration')
     
+
+def save_review(request, product_pk):
+    form = ReviewForm(data=request.POST)
+    if form.is_valid():
+        review = form.save(commit=False)
+        review.author = request.user
+        product = Product.objects.get(pk=product_pk)
+        review.product = product
+        review.save()
+
+        return redirect('product_page', product.slug)
