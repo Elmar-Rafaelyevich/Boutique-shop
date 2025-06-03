@@ -3,10 +3,10 @@ from django.views.generic import ListView, DetailView
 from random import randint
 from django.contrib.auth import login, logout
 from django.contrib import messages
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # local .py
-from shop.models import Category, Product, Review
+from shop.models import Category, Product, Review, FavoriteProducts
 from shop.forms import LoginForm, RegistrationForm, ReviewForm
 
 
@@ -125,3 +125,31 @@ def save_review(request, product_pk):
         review.save()
 
         return redirect('product_page', product.slug)
+
+def save_favorite_product(request, product_slug):
+    if request.user.is_authenticated:
+        user = request.user
+        product = Product.objects.get(slug=product_slug)
+        favorite_products = FavoriteProducts.objects.filter(user=user)
+    
+        if product in [i.product for i in favorite_products]:
+            fav_product = FavoriteProducts.objects.get(user=user, product=product)
+            fav_product.delete()
+        else:
+            FavoriteProducts.objects.create(user=user, product=product)
+
+        next_page = request.META.get('HTTP_REFERER', 'category_detail')
+        return redirect(next_page)
+    
+
+class FavoriteProductsView(ListView, LoginRequiredMixin):
+    model = FavoriteProducts
+    context_object_name = 'products'
+    template_name = 'shop/favorite_products.html'
+    login_url = 'registration'
+
+    def get_queryset(self):
+        favs = FavoriteProducts.objects.filter(user=self.request.user)
+        products = [i.product for i in favs]
+        return products
+        

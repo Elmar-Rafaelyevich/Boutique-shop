@@ -1,13 +1,15 @@
 from django.urls import path
 from shop.views import (Index, SubCategories, ProductPage, 
                         login_registration, user_login, user_logout, 
-                        registration, save_review)
+                        registration, save_review, save_favorite_product,
+                        FavoriteProductsView)
 
 urlpatterns = [
     # class view
     path('', Index.as_view(), name='index'),
     path('category/<slug:slug>/', SubCategories.as_view(), name='category_detail'),
     path('product_page/<slug:slug>/', ProductPage.as_view(), name='product_page'),
+    path('user_favorits/', FavoriteProductsView.as_view(), name='favorite_product_page'),
 
     # func view
     path('login_registration/', login_registration, name='login_registration'),
@@ -15,5 +17,7 @@ urlpatterns = [
     path('logout/', user_logout, name='user_logout'),
     path('register/', registration, name='registration'),
     path('save_review/<int:product_pk>', save_review, name='save_review'),
+    path('add_favorite/<slug:product_slug>', save_favorite_product, name='add_favorite'),
+
 
 ]
